@@ -8,11 +8,23 @@ public class LogNMain {
         Double sigma = 0.0;
         Random rand = new Random();
         LogNormalDistribution logNormal = new LogNormalDistribution(sigma, mu);
+
+
+        getSomeGraphs();
+
+
+    }
+
+    public static void getSomeGraphs(){
+        Double mu = 1.96; //actually scale parameter
+        Double sigma = 0.05;
+        Random rand = new Random();
+        LogNormalDistribution logNormal = new LogNormalDistribution(mu, sigma);
         String filename = "lognormal-samples_mu="+String.valueOf(mu)+"_sigma="+String.valueOf(sigma);
         String filename_cuProb = "cumulProbs_mu="+String.valueOf(mu)+"_sigma="+String.valueOf(sigma);
         String filename_invCuProb = "inverseCumulProbs_mu="+String.valueOf(mu)+"_sigma="+String.valueOf(sigma);
 
-        int N_points = (int)1e6;
+        int N_points = (int)1e5;
 
         //System.out.println(logNormal.cumulativeProbability());
 
@@ -24,7 +36,7 @@ public class LogNMain {
 
         for(int i = 0; i < N_points; i++) {
             log_norms[i] = logNormal.sample();
-            double x = 2.25*rand.nextDouble(); //2.25 here is hard coded in for the mo
+            double x = 20.25*rand.nextDouble(); //2.25 here is hard coded in for the mo
             cuPr_x[i] = x;
             cuPr_y[i] = logNormal.cumulativeProbability(x);
 
@@ -37,5 +49,11 @@ public class LogNMain {
         Toolbox.write_2_1DArraysToFile(filename_cuProb, cuPr_x, cuPr_y);
         Toolbox.write_2_1DArraysToFile(filename_invCuProb, invCuPr_x, invCuPr_y);
 
+        //System.out.println("Numerical mean: "+String.valueOf(logNormal.getNumericalMean()));
+        //System.out.println("CDF of 7.96: "+String.valueOf(logNormal.cumulativeProbability(7.96)));
+       // System.out.println("Scale: "+String.valueOf(logNormal.getScale()));
     }
+
+
+
 }
